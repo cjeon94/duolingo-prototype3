@@ -140,10 +140,10 @@ export default function ResultScreen(): JSX.Element {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
       {/* Main Canvas */}
-      <div className="relative w-[390px] h-[844px] bg-white rounded-xl shadow-lg overflow-hidden">
+      <div className="relative w-[390px] h-[844px] bg-white rounded-xl shadow-lg overflow-hidden z-10">
         
         {/* Status Bar */}
-        <div className="flex justify-between items-center px-4 py-3 h-[54px]">
+        <div className="flex justify-between items-center px-4 py-3 h-[54px] relative z-10">
           <div className="text-[17px] font-semibold text-[#454a53]">9:41</div>
           <div className="flex items-center gap-1">
             <div className="w-4 h-3 bg-[#454a53] rounded-sm"></div>
@@ -152,7 +152,7 @@ export default function ResultScreen(): JSX.Element {
         </div>
 
         {/* Progress Bar */}
-        <div className="flex items-center gap-4 px-4 mb-6">
+        <div className="flex items-center gap-4 px-4 mb-6 relative z-10">
           <button 
             className="w-8 h-8 flex items-center justify-center"
             onClick={() => navigate("/lesson/translate")}
@@ -165,7 +165,7 @@ export default function ResultScreen(): JSX.Element {
         </div>
 
         {/* Level Badge and Review Badge */}
-        <div className="flex items-center justify-between px-6 mb-8">
+        <div className="flex items-center justify-between px-6 mb-8 relative z-10">
           <div className="flex items-center gap-3">
             <div className="w-6 h-6 bg-[#ce82ff] rounded-full flex items-center justify-center">
               <span className="text-white font-bold text-[13px]">6</span>
@@ -175,7 +175,7 @@ export default function ResultScreen(): JSX.Element {
           
           <button
             onClick={handleReviewClick}
-            className={`rounded-full bg-orange-500 text-white text-[13px] font-bold px-3 py-1.5 shadow-lg transition-all duration-300 hover:bg-orange-600 z-60 relative ${
+            className={`rounded-full bg-orange-500 text-white text-[13px] font-bold px-3 py-1.5 shadow-lg transition-all duration-300 hover:bg-orange-600 z-20 relative ${
               firstReview && isPillPulsing ? 'animate-pulse shadow-[0_0_0_6px_rgba(249,115,22,0.15)]' : 'shadow-[0_0_0_6px_rgba(249,115,22,0.15)]'
             }`}
           >
@@ -184,7 +184,7 @@ export default function ResultScreen(): JSX.Element {
         </div>
 
         {/* Main Content */}
-        <div className="px-6 pb-32">
+        <div className="px-6 pb-32 relative z-10">
           {/* Title */}
           <h1 className="text-2xl font-bold text-[#4b4b4b] mb-8">
             Translate this sentence
@@ -236,27 +236,13 @@ export default function ResultScreen(): JSX.Element {
           </div>
         </div>
 
-        {/* Dark Overlay - Same style as Element screen */}
-        <div className="absolute w-[390px] h-[844px] top-0 left-0 bg-[#000000b2] z-50">
-          {/* Duo Owl Character */}
-          <img
-            className="absolute w-48 h-[179px] top-[248px] left-[118px] object-cover animate-sway hover:animate-pulse transition-transform duration-300 hover:scale-105"
-            alt="Duo owl"
-            src="/excited-owl.gif"
-          />
-        </div>
-
         {/* Confetti - Behind bubble, above content */}
-        {showConfetti && (
-          <div className="z-30">
-            <Confetti />
-          </div>
-        )}
+        {showConfetti && <Confetti />}
 
         {/* Celebratory Speech Bubble - Above owl area */}
         {showCelebrationBubble && (
           <div 
-            className="pointer-events-none absolute left-1/2 top-[38%] -translate-x-1/2 z-60 animate-celebration-bubble"
+            className="pointer-events-none absolute left-1/2 top-[38%] -translate-x-1/2 z-40 animate-celebration-bubble"
             aria-live="polite"
           >
             <div className="relative rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-lg">
@@ -268,7 +254,7 @@ export default function ResultScreen(): JSX.Element {
         )}
 
         {/* Sticky Error Sheet */}
-        <div className="absolute bottom-0 left-0 right-0 bg-[#ffeaea] border-t-2 border-[#ff4b4b] z-60">
+        <div className="absolute bottom-0 left-0 right-0 bg-[#ffeaea] border-t-2 border-[#ff4b4b] z-50">
           {/* Top Section with Icons */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-[#ffcccc]">
             <div className="flex items-center gap-3">
@@ -317,7 +303,7 @@ export default function ResultScreen(): JSX.Element {
         </div>
 
         {/* Home Indicator */}
-        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 z-70">
+        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 z-60">
           <div className="w-[134px] h-[5px] bg-black rounded-full"></div>
         </div>
       </div>
