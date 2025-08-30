@@ -307,7 +307,7 @@ export default function ResultScreen(): JSX.Element {
         )}
 
         {/* Sticky Error Sheet */}
-        <div className="absolute bottom-0 left-0 right-0 bg-[#ffeaea] border-t-2 border-[#ff4b4b] z-50">
+        <div className={`absolute bottom-0 left-0 right-0 bg-[#ffeaea] border-t-2 border-[#ff4b4b] z-50 ${showSecondBubble ? 'hidden' : ''}`}>
           {/* Top Section with Icons */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-[#ffcccc]">
             <div className="flex items-center gap-3">
