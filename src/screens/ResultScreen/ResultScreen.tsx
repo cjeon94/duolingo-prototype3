@@ -224,16 +224,6 @@ export default function ResultScreen(): JSX.Element {
             />
           </div>
 
-          {/* Owl Character for Confetti Area */}
-          <div className="flex justify-center mb-8">
-            <div className="w-24 h-24 flex items-center justify-center">
-              <img 
-                src="/excited-owl.gif" 
-                alt="Happy owl" 
-                className="w-24 h-24 object-contain animate-bounce-gentle"
-              />
-            </div>
-          </div>
         </div>
 
         {/* Confetti - Behind bubble, above content */}
