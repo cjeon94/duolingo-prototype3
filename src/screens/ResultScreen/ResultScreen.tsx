@@ -92,15 +92,20 @@ export default function ResultScreen(): JSX.Element {
       setTimeout(() => {
         setIsPillPulsing(false);
       }, 1500);
-      
-      // Hide bubble after 1.2s
-      setTimeout(() => {
-        setShowCelebrationBubble(false);
-        setShowOverlay(false);
-      }, 2000);
     } else {
       // Normal navigation - return to translate lesson
       navigate("/lesson/translate");
+    }
+  };
+
+  const handleOverlayClick = () => {
+    if (showOverlay) {
+      setShowCelebrationBubble(false);
+      setShowOverlay(false);
+      // Navigate after overlay is hidden
+      setTimeout(() => {
+        navigate("/lesson/translate");
+      }, 100);
     }
   };
 
@@ -234,11 +239,14 @@ export default function ResultScreen(): JSX.Element {
 
         {/* Dark Overlay - Similar to first screens */}
         {showOverlay && (
-          <div className="absolute inset-0 bg-[#000000b2] z-40">
+          <div 
+            className="absolute inset-0 bg-[#000000b2] z-40 cursor-pointer"
+            onClick={handleOverlayClick}
+          >
             {/* Celebratory Speech Bubble - On top of overlay */}
             {showCelebrationBubble && (
               <div 
-                className="pointer-events-none absolute left-1/2 top-[38%] -translate-x-1/2 z-50 animate-celebration-bubble"
+                className="absolute left-1/2 top-[38%] -translate-x-1/2 z-50 animate-celebration-bubble"
                 aria-live="polite"
               >
                 <div className="relative rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-lg">
