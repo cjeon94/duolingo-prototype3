@@ -277,7 +277,7 @@ export default function ResultScreen(): JSX.Element {
               >
                 <div className="relative rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-lg">
                   <span className="absolute left-1/2 -translate-x-1/2 -bottom-2 h-4 w-4 rotate-45 bg-white border-b border-r border-gray-200" />
-                  <p className="text-lg font-bold text-[#4b4b4b]">I'll help you review</p>
+                  <p className="text-lg text-[#4b4b4b]"><span className="font-bold">I'll help you review</span></p>
                   <p className="text-[15px] text-gray-700">each word at the optimal timing.</p>
                 </div>
               </div>
