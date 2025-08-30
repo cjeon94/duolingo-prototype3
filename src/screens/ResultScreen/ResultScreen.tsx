@@ -3,14 +3,15 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { X, Share, Flag } from "lucide-react";
 
 const Confetti = () => {
-  const confettiPieces = Array.from({ length: 40 }, (_, i) => ({
+  const confettiPieces = Array.from({ length: 50 }, (_, i) => ({
     id: i,
-    left: 30 + Math.random() * 40, // Centered around owl area
-    top: 35 + Math.random() * 20,
-    animationDelay: Math.random() * 0.3,
+    left: 20 + Math.random() * 60, // Spread around owl area
+    top: 40 + Math.random() * 30,
+    animationDelay: Math.random() * 0.5,
     color: ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#58cc02', '#ce82ff'][Math.floor(Math.random() * 8)],
-    size: Math.random() * 6 + 3,
+    size: Math.random() * 8 + 4,
     rotation: Math.random() * 360,
+    shape: Math.random() > 0.5 ? 'circle' : 'square',
   }));
 
   return (
@@ -18,7 +19,7 @@ const Confetti = () => {
       {confettiPieces.map((piece) => (
         <div
           key={piece.id}
-          className="absolute animate-confetti-burst"
+          className={`absolute animate-confetti-burst ${piece.shape === 'circle' ? 'rounded-full' : ''}`}
           style={{
             left: `${piece.left}%`,
             top: `${piece.top}%`,
@@ -44,7 +45,7 @@ export default function ResultScreen(): JSX.Element {
   const firstReview = searchParams.get("firstReview") === "true";
   const isCorrect = state === "correct";
 
-  const [showCelebrationBubble, setShowCelebrationBubble] = React.useState(false);
+  const [showCelebrationOverlay, setShowCelebrationOverlay] = React.useState(false);
   const [isPulsing, setIsPulsing] = React.useState(false);
   const [showConfetti, setShowConfetti] = React.useState(false);
 
@@ -73,32 +74,30 @@ export default function ResultScreen(): JSX.Element {
       incorrectSound.play().catch(() => {
         console.log("Could not play incorrect answer sound");
       });
-
-      // If this is the first review, show celebration after a brief delay
-      if (firstReview) {
-        const timer = setTimeout(() => {
-          setShowCelebrationBubble(true);
-          setShowConfetti(true);
-          setIsPulsing(true);
-          
-          // Stop pulsing after 1.2s but keep bubble visible
-          setTimeout(() => {
-            setIsPulsing(false);
-          }, 1200);
-          
-          // Hide bubble after 1.2s
-          setTimeout(() => {
-            setShowCelebrationBubble(false);
-          }, 1200);
-        }, 300);
-        
-        return () => clearTimeout(timer);
-      }
     }
-  }, [isCorrect, firstReview]);
+  }, [isCorrect]);
 
   const handleGotIt = () => {
-    navigate("/lesson/tip");
+    if (firstReview && !showCelebrationOverlay) {
+      // Show celebration overlay first
+      setShowCelebrationOverlay(true);
+      setShowConfetti(true);
+      setIsPulsing(true);
+      
+      // Stop pulsing after 1.5s but keep overlay visible
+      setTimeout(() => {
+        setIsPulsing(false);
+      }, 1500);
+      
+      // Hide overlay after 1.2s and navigate
+      setTimeout(() => {
+        setShowCelebrationOverlay(false);
+        navigate("/lesson/tip");
+      }, 1200);
+    } else {
+      // Normal navigation
+      navigate("/lesson/tip");
+    }
   };
 
   const handleReviewClick = () => {
@@ -113,6 +112,11 @@ export default function ResultScreen(): JSX.Element {
 
   const handleShare = () => {
     console.log("Share clicked");
+  };
+
+  const handleContinue = () => {
+    setShowCelebrationOverlay(false);
+    navigate("/lesson/tip");
   };
 
   // For correct answers, show simple success state
@@ -142,8 +146,13 @@ export default function ResultScreen(): JSX.Element {
       {/* Main Canvas */}
       <div className="relative w-[390px] h-[844px] bg-white rounded-xl shadow-lg overflow-hidden z-10">
         
+        {/* Dark Overlay for Celebration */}
+        {showCelebrationOverlay && (
+          <div className="absolute inset-0 bg-black/60 z-25" />
+        )}
+        
         {/* Status Bar */}
-        <div className="flex justify-between items-center px-4 py-3 h-[54px]">
+        <div className="flex justify-between items-center px-4 py-3 h-[54px] relative z-10">
           <div className="text-[17px] font-semibold text-[#454a53]">9:41</div>
           <div className="flex items-center gap-1">
             <div className="w-4 h-3 bg-[#454a53] rounded-sm"></div>
@@ -152,7 +161,7 @@ export default function ResultScreen(): JSX.Element {
         </div>
 
         {/* Progress Bar */}
-        <div className="flex items-center gap-4 px-4 mb-6">
+        <div className="flex items-center gap-4 px-4 mb-6 relative z-10">
           <button 
             className="w-8 h-8 flex items-center justify-center"
             onClick={() => navigate("/lesson/translate")}
@@ -165,7 +174,7 @@ export default function ResultScreen(): JSX.Element {
         </div>
 
         {/* Level Badge and Review Badge */}
-        <div className="flex items-center justify-between px-6 mb-8">
+        <div className="flex items-center justify-between px-6 mb-8 relative z-10">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-[#ce82ff] rounded-full flex items-center justify-center">
               <span className="text-white font-bold text-sm">6</span>
@@ -175,7 +184,7 @@ export default function ResultScreen(): JSX.Element {
           
           <button
             onClick={handleReviewClick}
-            className={`bg-[#ff9600] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg transition-all duration-300 hover:bg-[#e6870a] z-20 relative ${
+            className={`rounded-full bg-[#ff9600] text-white text-xs font-bold px-3 py-1.5 shadow-lg transition-all duration-300 hover:bg-[#e6870a] z-20 relative ${
               firstReview && isPulsing ? 'animate-review-pulse-highlight' : ''
             }`}
             style={{
@@ -187,7 +196,7 @@ export default function ResultScreen(): JSX.Element {
         </div>
 
         {/* Main Content */}
-        <div className="px-6 pb-32">
+        <div className="px-6 pb-32 relative z-10">
           {/* Title */}
           <h1 className="text-2xl font-bold text-[#4b4b4b] mb-8">
             Translate this sentence
@@ -219,19 +228,33 @@ export default function ResultScreen(): JSX.Element {
 
           {/* User's Answer Input - Disabled with Red Border */}
           <div className="mb-8">
-            <div className="w-full min-h-[120px] p-4 border-2 border-[#ef4444] rounded-xl bg-[#fef2f2] text-lg text-[#4b4b4b] opacity-75">
-              {userAnswer ? decodeURIComponent(userAnswer) : ""}
-            </div>
+            <textarea
+              value={userAnswer ? decodeURIComponent(userAnswer) : ""}
+              readOnly
+              className="w-full min-h-[120px] p-4 border-2 border-[#ef4444] rounded-xl bg-[#fef2f2] text-lg text-[#4b4b4b] resize-none"
+              placeholder="Type or Speak in Spanish"
+            />
           </div>
         </div>
 
         {/* Confetti - Behind bubble, above content */}
         {showConfetti && <Confetti />}
 
+        {/* Happy Owl Character for Celebration */}
+        {showCelebrationOverlay && (
+          <div className="absolute left-1/2 top-[45%] -translate-x-1/2 z-35 pointer-events-none">
+            <img 
+              src="/excited-owl.gif" 
+              alt="Happy celebrating owl" 
+              className="w-32 h-32 object-contain animate-bounce-gentle"
+            />
+          </div>
+        )}
+
         {/* Celebratory Speech Bubble - Above owl area */}
-        {showCelebrationBubble && (
+        {showCelebrationOverlay && (
           <div 
-            className="pointer-events-none absolute left-1/2 top-[38%] -translate-x-1/2 z-40 animate-celebration-bubble"
+            className="pointer-events-none absolute left-1/2 top-[32%] -translate-x-1/2 z-40 animate-celebration-bubble"
             aria-live="polite"
           >
             <div className="relative rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-lg">
@@ -292,7 +315,7 @@ export default function ResultScreen(): JSX.Element {
         </div>
 
         {/* Home Indicator */}
-        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2">
+        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 z-60">
           <div className="w-[134px] h-[5px] bg-black rounded-full"></div>
         </div>
       </div>
