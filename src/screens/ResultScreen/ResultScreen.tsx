@@ -258,27 +258,6 @@ export default function ResultScreen(): JSX.Element {
                 </div>
               </div>
             )}
-            
-            {/* Cheer Owl positioned to the left of the bubble */}
-            <img
-              className="absolute w-32 h-[120px] top-[280px] left-[50px] object-cover animate-bounce-gentle"
-              alt="Cheer owl"
-              src="/cheer-owl.gif"
-            />
-            
-            {/* Celebratory Speech Bubble - Positioned to the right of owl */}
-            {showCelebrationBubble && (
-              <div 
-                className="absolute left-[200px] top-[250px] z-50 animate-celebration-bubble"
-                aria-live="polite"
-              >
-                <div className="relative rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-lg">
-                  <span className="absolute -left-2 top-4 h-4 w-4 rotate-45 bg-white border-l border-t border-gray-200" />
-                  <p className="text-lg font-bold text-[#4b4b4b]">Great job!</p>
-                  <p className="text-[15px] text-gray-700">You now have your first word to review.</p>
-                </div>
-              </div>
-            )}
           </div>
         )}
 
