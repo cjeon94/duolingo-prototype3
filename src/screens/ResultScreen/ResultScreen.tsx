@@ -82,11 +82,6 @@ export default function ResultScreen(): JSX.Element {
 
   const handleGotIt = () => {
     if (firstReview && !showCelebrationBubble) {
-      // Show overlay, celebration bubble and confetti
-      setShowOverlay(true);
-      setShowCelebrationBubble(true);
-      setShowConfetti(true);
-      setIsPillPulsing(true);
     } else {
       // Normal navigation - return to translate lesson
       navigate("/lesson/translate");
