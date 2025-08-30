@@ -243,7 +243,7 @@ export default function ResultScreen(): JSX.Element {
             <img
               className="absolute w-64 h-[238px] top-[280px] left-[74px] object-cover animate-bounce-gentle"
               alt="Cheer owl"
-              src="/cheer-owl.gif"
+              src={showSecondBubble ? "/Duolingo-workout copy.gif" : "/cheer-owl.gif"}
             />
             
             {/* Celebratory Speech Bubble - On top of overlay */}
