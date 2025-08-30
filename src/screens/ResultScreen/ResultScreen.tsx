@@ -145,6 +145,11 @@ export default function ResultScreen(): JSX.Element {
           <div className="absolute inset-0 bg-black/60 z-25" />
         )}
         
+        {/* Dark Overlay for Celebration */}
+        {showCelebrationOverlay && (
+          <div className="absolute inset-0 bg-black/60 z-25" />
+        )}
+        
         {/* Status Bar */}
         <div className="flex justify-between items-center px-4 py-3 h-[54px] relative z-10">
           <div className="text-[17px] font-semibold text-[#454a53]">9:41</div>
