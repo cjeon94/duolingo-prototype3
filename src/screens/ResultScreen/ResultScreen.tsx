@@ -238,6 +238,13 @@ export default function ResultScreen(): JSX.Element {
             className="absolute inset-0 bg-[#000000b2] z-40 cursor-pointer"
             onClick={handleOverlayClick}
           >
+            {/* Cheer Owl */}
+            <img
+              className="absolute w-48 h-[179px] top-[300px] left-[71px] object-cover animate-bounce-gentle"
+              alt="Cheer owl"
+              src="/cheer-owl.gif"
+            />
+            
             {/* Celebratory Speech Bubble - On top of overlay */}
             {showCelebrationBubble && (
               <div 
