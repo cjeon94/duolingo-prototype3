@@ -69,32 +69,29 @@ export default function ResultScreen(): JSX.Element {
       incorrectSound.play().catch(() => {
         console.log("Could not play incorrect answer sound");
       });
-      
-      // Show celebration overlay for first review after a short delay
-      if (firstReview) {
-        const celebrationTimer = setTimeout(() => {
-          setShowCelebration(true);
-          setIsPulsing(true);
-        }, 800); // Show celebration after error message is displayed
-        
-        return () => clearTimeout(celebrationTimer);
-      }
     }
+  }, [isCorrect]);
 
-    // Stop pulsing after 1.2 seconds when celebration is shown
+  // Handle pulsing animation when celebration is shown
+  React.useEffect(() => {
     if (showCelebration) {
+      setIsPulsing(true);
       const timer = setTimeout(() => {
         setIsPulsing(false);
       }, 1200);
       return () => clearTimeout(timer);
     }
-  }, [isCorrect, firstReview, showCelebration]);
-
+  }, [showCelebration]);
   const handleContinue = () => {
-    if (firstReview) {
-      navigate("/lesson/tip");
+    if (firstReview && !isCorrect) {
+      // Show celebration overlay first
+      setShowCelebration(true);
     } else {
-      navigate("/lesson/translate");
+      if (firstReview) {
+        navigate("/lesson/tip");
+      } else {
+        navigate("/lesson/translate");
+      }
     }
   };
 
