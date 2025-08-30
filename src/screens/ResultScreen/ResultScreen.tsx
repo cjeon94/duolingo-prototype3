@@ -168,16 +168,6 @@ export default function ResultScreen(): JSX.Element {
           </div>
         </div>
 
-        {/* Level Badge and Review Badge */}
-        <div className="flex items-center justify-between px-6 mb-8 relative z-10">
-          <div className="flex items-center gap-3">
-            <div className="w-6 h-6 bg-[#ce82ff] rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-[13px]">6</span>
-            </div>
-            <span className="text-[#ce82ff] font-bold text-[13px] tracking-wider">LEVEL 6</span>
-          </div>
-        </div>
-
         {/* Main Content */}
         <div className="px-6 pb-32 relative z-10">
           {/* Title */}
