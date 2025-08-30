@@ -161,21 +161,8 @@ export default function ResultScreen(): JSX.Element {
             className="w-8 h-8 flex items-center justify-center"
             onClick={() => navigate("/lesson/translate")}
           >
-            <X className="w-5 h-5 text-[#6b7280]" />
+            <X className="w-6 h-6 text-gray-600" />
           </button>
-          <div className="flex-1 h-3 bg-[#e5e7eb] rounded-full overflow-hidden">
-            <div className="w-3/5 h-full bg-[#58cc02] rounded-full"></div>
-          </div>
-        </div>
-
-        {/* Level Badge and Review Badge */}
-        <div className="flex items-center justify-between px-6 mb-8 relative z-10">
-          <div className="flex items-center gap-3">
-            <div className="w-6 h-6 bg-[#ce82ff] rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-[13px]">6</span>
-            </div>
-            <span className="text-[#ce82ff] font-bold text-[13px] tracking-wider">LEVEL 6</span>
-          </div>
         </div>
 
         {/* Main Content */}
