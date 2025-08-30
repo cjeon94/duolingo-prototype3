@@ -41,8 +41,8 @@ export default function ResultScreen(): JSX.Element {
   const firstReview = searchParams.get("firstReview") === "true";
   const isCorrect = state === "correct";
 
-  const [showCelebration, setShowCelebration] = React.useState(firstReview);
-  const [isPulsing, setIsPulsing] = React.useState(firstReview);
+  const [showCelebration, setShowCelebration] = React.useState(false);
+  const [isPulsing, setIsPulsing] = React.useState(false);
 
   const duoCharacters = [
     "/Duo Character 1.svg",
@@ -69,16 +69,26 @@ export default function ResultScreen(): JSX.Element {
       incorrectSound.play().catch(() => {
         console.log("Could not play incorrect answer sound");
       });
+      
+      // Show celebration overlay for first review after a short delay
+      if (firstReview) {
+        const celebrationTimer = setTimeout(() => {
+          setShowCelebration(true);
+          setIsPulsing(true);
+        }, 800); // Show celebration after error message is displayed
+        
+        return () => clearTimeout(celebrationTimer);
+      }
     }
 
-    // Stop pulsing after 1.2 seconds for first review
-    if (firstReview) {
+    // Stop pulsing after 1.2 seconds when celebration is shown
+    if (showCelebration) {
       const timer = setTimeout(() => {
         setIsPulsing(false);
       }, 1200);
       return () => clearTimeout(timer);
     }
-  }, [isCorrect, firstReview]);
+  }, [isCorrect, firstReview, showCelebration]);
 
   const handleContinue = () => {
     if (firstReview) {

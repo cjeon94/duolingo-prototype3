@@ -60,8 +60,8 @@ export default function TranslateLesson(): JSX.Element {
       navigate("/lesson/result?state=correct");
     } else {
       const encodedExpected = encodeURIComponent(correctAnswer);
-      // Simulate first review for demonstration
-      const isFirstReview = Math.random() > 0.5; // 50% chance for demo
+      // Always trigger first review for demonstration
+      const isFirstReview = true; // Set to true to always show the celebration
       const firstReviewParam = isFirstReview ? "&firstReview=true" : "";
       navigate(`/lesson/result?state=incorrect&expected=${encodedExpected}${firstReviewParam}`);
     }
