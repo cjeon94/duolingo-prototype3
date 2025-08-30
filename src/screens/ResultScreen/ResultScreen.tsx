@@ -240,7 +240,7 @@ export default function ResultScreen(): JSX.Element {
           >
             {/* Cheer Owl */}
             <img
-              className="absolute w-64 h-[238px] top-[280px] left-[113px] object-cover animate-bounce-gentle"
+              className="absolute w-64 h-[238px] top-[280px] left-[74px] object-cover animate-bounce-gentle"
               alt="Cheer owl"
               src="/cheer-owl.gif"
             />
