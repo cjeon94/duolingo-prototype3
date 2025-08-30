@@ -49,6 +49,7 @@ export default function ResultScreen(): JSX.Element {
   const [showCelebrationBubble, setShowCelebrationBubble] = React.useState(false);
   const [showConfetti, setShowConfetti] = React.useState(false);
   const [isPillPulsing, setIsPillPulsing] = React.useState(false);
+  const [showOverlay, setShowOverlay] = React.useState(false);
 
   const duoCharacters = [
     "/Duo Character 1.svg",
@@ -81,16 +82,25 @@ export default function ResultScreen(): JSX.Element {
 
   const handleGotIt = () => {
     if (firstReview && !showCelebrationBubble) {
-      // Show confetti
+      // Show overlay, celebration bubble and confetti
+      setShowOverlay(true);
+      setShowCelebrationBubble(true);
       setShowConfetti(true);
       setIsPillPulsing(true);
-      // Navigate after a short delay
-      setTimeout(() => {
-        navigate("/lesson/translate");
-      }, 1500);
     } else {
       // Normal navigation - return to translate lesson
       navigate("/lesson/translate");
+    }
+  };
+
+  const handleOverlayClick = () => {
+    if (showOverlay) {
+      setShowCelebrationBubble(false);
+      setShowOverlay(false);
+      // Navigate after overlay is hidden
+      setTimeout(() => {
+        navigate("/lesson/translate");
+      }, 100);
     }
   };
 
@@ -221,6 +231,42 @@ export default function ResultScreen(): JSX.Element {
 
         {/* Confetti - Behind bubble, above content */}
         {showConfetti && <Confetti />}
+
+        {/* Dark Overlay - Similar to first screens */}
+        {showOverlay && (
+          <div 
+            className="absolute inset-0 bg-[#000000b2] z-40 cursor-pointer"
+            onClick={handleOverlayClick}
+          >
+            {/* Celebratory Speech Bubble - On top of overlay */}
+            {showCelebrationBubble && (
+              <div 
+                className="absolute left-1/2 top-[38%] -translate-x-1/2 z-50 animate-celebration-bubble"
+                aria-live="polite"
+              >
+                <div className="relative rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-lg">
+                  <span className="absolute -left-2 top-4 h-4 w-4 rotate-45 bg-white border-l border-t border-gray-200" />
+                  <p className="text-lg font-bold text-[#4b4b4b]">Great job!</p>
+                  <p className="text-[15px] text-gray-700">You now have your first word to review.</p>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Celebratory Speech Bubble - Without overlay (for non-firstReview cases) */}
+        {showCelebrationBubble && !showOverlay && (
+          <div 
+            className="pointer-events-none absolute left-1/2 top-[38%] -translate-x-1/2 z-40 animate-celebration-bubble"
+            aria-live="polite"
+          >
+            <div className="relative rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-lg">
+              <span className="absolute -left-2 top-4 h-4 w-4 rotate-45 bg-white border-l border-t border-gray-200" />
+              <p className="text-lg font-bold text-[#4b4b4b]">Great job!</p>
+              <p className="text-[15px] text-gray-700">You now have your first word to review.</p>
+            </div>
+          </div>
+        )}
 
         {/* Sticky Error Sheet */}
         <div className="absolute bottom-0 left-0 right-0 bg-[#ffeaea] border-t-2 border-[#ff4b4b] z-50">
