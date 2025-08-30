@@ -241,7 +241,11 @@ export default function ResultScreen(): JSX.Element {
           >
             {/* Cheer Owl */}
             <img
-              className="absolute w-64 h-[238px] top-[280px] left-[74px] object-cover animate-bounce-gentle"
+              className={`absolute object-cover animate-bounce-gentle ${
+                showSecondBubble 
+                  ? 'w-[205px] h-[190px] top-[280px] left-[92px]' 
+                  : 'w-64 h-[238px] top-[280px] left-[74px]'
+              }`}
               alt="Cheer owl"
               src={showSecondBubble ? "/Duolingo-workout copy.gif" : "/cheer-owl.gif"}
             />
