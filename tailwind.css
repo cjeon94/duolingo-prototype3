@@ -630,6 +630,32 @@
   animation: celebration-bubble 300ms ease-out forwards;
 }
 
+@keyframes error-panel-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 75, 75, 0.7), 0 0 30px rgba(255, 75, 75, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(255, 75, 75, 0), 0 0 50px rgba(255, 75, 75, 0.5);
+  }
+}
+
+.animate-error-panel-pulse {
+  animation: error-panel-pulse 2s ease-in-out infinite;
+}
+
+@keyframes review-button-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.7), 0 0 20px rgba(249, 115, 22, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(249, 115, 22, 0), 0 0 40px rgba(249, 115, 22, 0.5);
+  }
+}
+
+.animate-review-button-pulse {
+  animation: review-button-pulse 2s ease-in-out infinite;
+}
+
 @tailwind components;
 @tailwind utilities;
 
