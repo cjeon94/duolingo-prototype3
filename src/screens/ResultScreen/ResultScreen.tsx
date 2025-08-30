@@ -87,12 +87,6 @@ export default function ResultScreen(): JSX.Element {
       // Stop pulsing after 1.5s but keep overlay visible
       setTimeout(() => {
         setIsPulsing(false);
-      }, 1500);
-      
-      // Hide overlay after 1.2s and navigate
-      setTimeout(() => {
-        setShowCelebrationOverlay(false);
-        navigate("/lesson/tip");
       }, 1200);
     } else {
       // Normal navigation
