@@ -1,5 +1,6 @@
 import React from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import { X, Share, Flag } from "lucide-react";
 
 export default function ResultScreen(): JSX.Element {
   const [searchParams] = useSearchParams();
@@ -62,73 +63,107 @@ export default function ResultScreen(): JSX.Element {
             className="w-8 h-8 flex items-center justify-center"
             onClick={() => navigate("/lesson/translate")}
           >
-            <svg width="20" height="20" viewBox="0 0 20 20" className="text-[#6b7280]">
-              <path d="M15 5L5 15M5 5l10 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
+            <X className="w-5 h-5 text-[#6b7280]" />
           </button>
           <div className="flex-1 h-3 bg-[#e5e7eb] rounded-full overflow-hidden">
             <div className="w-3/5 h-full bg-[#58cc02] rounded-full"></div>
           </div>
         </div>
 
+        {/* Level Badge and Review Badge */}
+        <div className="flex items-center justify-between px-6 mb-8">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-[#ce82ff] rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-sm">6</span>
+            </div>
+            <span className="text-[#ce82ff] font-bold text-sm tracking-wider">LEVEL 6</span>
+          </div>
+          
+          <div className="bg-[#ff9600] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">
+            Review in 2 days
+          </div>
+        </div>
+
         {/* Main Content */}
-        <div className="flex flex-col items-center justify-center h-[600px] px-6">
-          {/* Result Icon and Character */}
-          <div className="mb-8">
-            <img 
-              src={isCorrect ? "/excited-owl.gif" : "/Duolingo Hello.gif"} 
-              alt={isCorrect ? "Excited Duo" : "Sad Duo"} 
-              className="w-32 h-32 object-contain"
-            />
-          </div>
+        <div className="px-6 pb-32">
+          {/* Title */}
+          <h1 className="text-2xl font-bold text-[#4b4b4b] mb-8">
+            Translate this sentence
+          </h1>
 
-          {/* Result Message */}
-          <div className="text-center mb-8">
-            <h1 className={`text-3xl font-bold mb-4 ${isCorrect ? 'text-[#58cc02]' : 'text-[#ff4b4b]'}`}>
-              {isCorrect ? "¡Correcto!" : "Incorrect"}
-            </h1>
-            
-            {!isCorrect && expected && (
-              <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
-                <p className="text-sm text-gray-600 mb-2">Correct answer:</p>
-                <p className="text-lg font-medium text-[#4b4b4b]">
-                  {decodeURIComponent(expected)}
-                </p>
-              </div>
-            )}
-          </div>
-
-          {/* Character with Speech Bubble */}
-          <div className="flex items-center gap-4 mb-8">
-            <div className="w-16 h-16 flex items-center justify-center flex-shrink-0">
+          {/* Character and Speech Bubble Row */}
+          <div className="flex items-start gap-4 mb-8">
+            {/* Duo Character */}
+            <div className="w-20 h-20 flex items-center justify-center flex-shrink-0">
               <img 
                 src={randomDuoCharacter} 
                 alt="Duo character" 
-                className="w-16 h-16 object-contain"
+                className="w-20 h-20 object-contain"
               />
             </div>
             
-            <div className="relative">
-              <div className="bg-white border-2 border-[#e4e4e4] rounded-2xl p-3 shadow-sm relative">
-                <div className="text-base text-[#4b4b4b]">
-                  {isCorrect ? "Great job!" : "Keep practicing!"}
+            {/* Speech Bubble */}
+            <div className="flex-1 relative">
+              <div className="bg-white border-2 border-[#e4e4e4] rounded-2xl p-4 shadow-sm relative">
+                <div className="text-lg text-[#4b4b4b] font-medium">
+                  Dear Ana, how are you?
                 </div>
                 {/* Speech bubble tail */}
-                <div className="absolute left-[-8px] top-4 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-r-[6px] border-r-[#e4e4e4]"></div>
-                <div className="absolute left-[-6px] top-4 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-r-[6px] border-r-white"></div>
+                <div className="absolute left-[-8px] top-6 w-0 h-0 border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent border-r-[8px] border-r-[#e4e4e4]"></div>
+                <div className="absolute left-[-6px] top-6 w-0 h-0 border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent border-r-[8px] border-r-white"></div>
               </div>
+            </div>
+          </div>
+
+          {/* User's Answer Input */}
+          <div className="mb-8">
+            <div className="w-full min-h-[120px] p-4 border-2 border-[#e4e4e4] rounded-xl bg-gray-50 text-lg text-[#4b4b4b]">
+              Ana, como estas?
             </div>
           </div>
         </div>
 
-        {/* Footer Bar */}
-        <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
-          <button
-            onClick={handleContinue}
-            className="w-full h-12 rounded-xl text-white font-semibold active:translate-y-[2px] transition-all bg-[#2ec748] shadow-[0_3px_0_#27aa3d]"
-          >
-            CONTINUE
-          </button>
+        {/* Incorrect Footer */}
+        <div className="absolute bottom-0 left-0 right-0 bg-[#ffeaea] border-t-2 border-[#ff4b4b]">
+          {/* Top Section with Icons */}
+          <div className="flex items-center justify-between px-4 py-3 border-b border-[#ffcccc]">
+            <div className="flex items-center gap-3">
+              <div className="w-6 h-6 bg-[#ff4b4b] rounded-full flex items-center justify-center">
+                <X className="w-4 h-4 text-white" />
+              </div>
+              <span className="text-[#ff4b4b] font-bold text-lg">Incorrect</span>
+            </div>
+            
+            <div className="flex items-center gap-4">
+              <button className="w-8 h-8 flex items-center justify-center">
+                <Share className="w-5 h-5 text-[#6b7280]" />
+              </button>
+              <button className="w-8 h-8 flex items-center justify-center">
+                <Flag className="w-5 h-5 text-[#6b7280]" />
+              </button>
+            </div>
+          </div>
+
+          {/* Correct Answer Section */}
+          <div className="px-4 py-3">
+            <div className="mb-3">
+              <span className="text-[#ff4b4b] font-semibold text-base">Correct Answer:</span>
+            </div>
+            <div className="mb-4">
+              <span className="text-[#ff4b4b] font-bold text-lg underline">
+                Querida
+              </span>
+              <span className="text-[#4b4b4b] text-lg"> Ana, ¿cómo estás?</span>
+            </div>
+            
+            {/* Continue Button */}
+            <button
+              onClick={handleContinue}
+              className="w-full h-12 rounded-xl text-white font-bold text-base bg-[#ff4b4b] shadow-[0_3px_0_#d73527] active:translate-y-[2px] active:shadow-none transition-all"
+            >
+              GOT IT
+            </button>
+          </div>
         </div>
 
         {/* Home Indicator */}
