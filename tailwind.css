@@ -566,22 +566,22 @@
     opacity: 0;
     transform: translateX(-50%) translateY(10px) scale(0.9);
   }
-  10% {
+  12% {
     opacity: 1;
     transform: translateX(-50%) translateY(0) scale(1);
   }
-  90% {
+  85% {
     opacity: 1;
     transform: translateX(-50%) translateY(0) scale(1);
   }
   100% {
     opacity: 0;
-    transform: translateX(-50%) translateY(-10px) scale(0.9);
+    transform: translateX(-50%) translateY(0) scale(1);
   }
 }
 
 .animate-celebration-bubble {
-  animation: celebration-bubble 1.4s ease-out forwards;
+  animation: celebration-bubble 2500ms ease-out forwards;
 }
 
 @keyframes confetti-burst {
