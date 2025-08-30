@@ -87,11 +87,6 @@ export default function ResultScreen(): JSX.Element {
       setShowCelebrationBubble(true);
       setShowConfetti(true);
       setIsPillPulsing(true);
-      
-      // Stop pill pulsing after 1.5s
-      setTimeout(() => {
-        setIsPillPulsing(false);
-      }, 1500);
     } else {
       // Normal navigation - return to translate lesson
       navigate("/lesson/translate");
