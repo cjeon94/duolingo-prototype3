@@ -42,6 +42,7 @@ export default function ResultScreen(): JSX.Element {
   const state = searchParams.get("state");
   const expected = searchParams.get("expected");
   const userAnswer = searchParams.get("userAnswer");
+  const characterFromLesson = searchParams.get("character");
   const firstReview = searchParams.get("firstReview") === "true";
   const isCorrect = state === "correct";
 
@@ -57,8 +58,9 @@ export default function ResultScreen(): JSX.Element {
     "/Duo Character 5.svg"
   ];
   
+  // Use character from lesson if available, otherwise pick random
   const [randomDuoCharacter] = React.useState(() => 
-    duoCharacters[Math.floor(Math.random() * duoCharacters.length)]
+    characterFromLesson ? decodeURIComponent(characterFromLesson) : duoCharacters[Math.floor(Math.random() * duoCharacters.length)]
   );
 
   React.useEffect(() => {
