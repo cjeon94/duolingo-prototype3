@@ -163,6 +163,9 @@ export default function ResultScreen(): JSX.Element {
           >
             <X className="w-6 h-6 text-gray-600" />
           </button>
+          <div className="flex-1 h-3 bg-[#e5e7eb] rounded-full overflow-hidden">
+            <div className="w-3/5 h-full bg-[#58cc02] rounded-full"></div>
+          </div>
         </div>
 
         {/* Main Content */}
