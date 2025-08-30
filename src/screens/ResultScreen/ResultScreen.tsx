@@ -217,7 +217,7 @@ export default function ResultScreen(): JSX.Element {
         {/* Review Button - Always above overlay */}
         <button
           onClick={handleReviewClick}
-          className={`absolute top-[108px] right-6 rounded-full bg-orange-500 text-white text-[13px] font-bold px-3 py-1.5 shadow-lg transition-all duration-300 hover:bg-orange-600 ${
+          className={`absolute top-[87px] right-6 rounded-full bg-orange-500 text-white text-[13px] font-bold px-3 py-1.5 shadow-lg transition-all duration-300 hover:bg-orange-600 ${
             firstReview && showSecondBubble ? 'z-50' : 'z-20'
           } ${
             firstReview && showSecondBubble ? 'animate-review-button-pulse' : ''
