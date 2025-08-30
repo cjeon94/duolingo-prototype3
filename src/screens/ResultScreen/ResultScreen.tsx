@@ -1,6 +1,297 @@
 import React from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { X, Share, Flag, Copy } from "lucide-react";
+import { X, Share, Flag, Copy, Check } from "lucide-react";
+
+interface ReviewCadenceModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (cadence: string) => void;
+}
+
+const ReviewCadenceModal: React.FC<ReviewCadenceModalProps> = ({ isOpen, onClose, onSave }) => {
+  const [selectedCadence, setSelectedCadence] = React.useState("recommended");
+  const [activeTab, setActiveTab] = React.useState("cadence");
+
+  const cadenceOptions = [
+    { id: "recommended", label: "Review as recommended", isDefault: true },
+    { id: "tomorrow", label: "Review tomorrow", isDefault: false },
+    { id: "no-review", label: "No review for now", isDefault: false },
+    { id: "no-more", label: "No more reviews", isDefault: false },
+  ];
+
+  const otherOptions = [
+    { id: "next-week", label: "Review next week" },
+    { id: "two-weeks", label: "Review in 2 weeks" },
+  ];
+
+  const handleSave = () => {
+    onSave(selectedCadence);
+    onClose();
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="absolute inset-0 bg-[#000000b2] z-60 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-xl max-w-sm w-full mx-4 relative animate-celebration-bubble">
+        {/* Header */}
+        <div className="px-6 pt-6 pb-4 border-b border-gray-200">
+
+interface ReviewCadenceModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (cadence: string) => void;
+}
+
+const ReviewCadenceModal: React.FC<ReviewCadenceModalProps> = ({ isOpen, onClose, onSave }) => {
+  const [selectedCadence, setSelectedCadence] = React.useState("recommended");
+  const [activeTab, setActiveTab] = React.useState("cadence");
+
+  const cadenceOptions = [
+    { id: "recommended", label: "Review as recommended", isDefault: true },
+    { id: "tomorrow", label: "Review tomorrow", isDefault: false },
+    { id: "no-review", label: "No review for now", isDefault: false },
+    { id: "no-more", label: "No more reviews", isDefault: false },
+  ];
+
+  const otherOptions = [
+    { id: "next-week", label: "Review next week" },
+    { id: "two-weeks", label: "Review in 2 weeks" },
+  ];
+
+  const handleSave = () => {
+    onSave(selectedCadence);
+    onClose();
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="absolute inset-0 bg-[#000000b2] z-60 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-xl max-w-sm w-full mx-4 relative animate-celebration-bubble">
+        {/* Header */}
+        <div className="px-6 pt-6 pb-4 border-b border-gray-200">
+
+interface ReviewCadenceModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (cadence: string) => void;
+}
+
+const ReviewCadenceModal: React.FC<ReviewCadenceModalProps> = ({ isOpen, onClose, onSave }) => {
+  const [selectedCadence, setSelectedCadence] = React.useState("recommended");
+  const [activeTab, setActiveTab] = React.useState("cadence");
+
+  const cadenceOptions = [
+    { id: "recommended", label: "Review as recommended", isDefault: true },
+    { id: "tomorrow", label: "Review tomorrow", isDefault: false },
+    { id: "no-review", label: "No review for now", isDefault: false },
+    { id: "no-more", label: "No more reviews", isDefault: false },
+  ];
+
+  const otherOptions = [
+    { id: "next-week", label: "Review next week" },
+    { id: "two-weeks", label: "Review in 2 weeks" },
+  ];
+
+  const handleSave = () => {
+    onSave(selectedCadence);
+    onClose();
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="absolute inset-0 bg-[#000000b2] z-60 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-xl max-w-sm w-full mx-4 relative animate-celebration-bubble">
+        {/* Header */}
+        <div className="px-6 pt-6 pb-4 border-b border-gray-200">
+
+interface ReviewCadenceModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (cadence: string) => void;
+}
+
+const ReviewCadenceModal: React.FC<ReviewCadenceModalProps> = ({ isOpen, onClose, onSave }) => {
+  const [selectedCadence, setSelectedCadence] = React.useState("recommended");
+  const [activeTab, setActiveTab] = React.useState("cadence");
+
+  const cadenceOptions = [
+    { id: "recommended", label: "Review as recommended", isDefault: true },
+    { id: "tomorrow", label: "Review tomorrow", isDefault: false },
+    { id: "no-review", label: "No review for now", isDefault: false },
+    { id: "no-more", label: "No more reviews", isDefault: false },
+  ];
+
+  const otherOptions = [
+    { id: "next-week", label: "Review next week" },
+    { id: "two-weeks", label: "Review in 2 weeks" },
+  ];
+
+  const handleSave = () => {
+    onSave(selectedCadence);
+    onClose();
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="absolute inset-0 bg-[#000000b2] z-60 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-xl max-w-sm w-full mx-4 relative animate-celebration-bubble">
+        {/* Header */}
+        <div className="px-6 pt-6 pb-4 border-b border-gray-200">
+
+interface ReviewCadenceModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (cadence: string) => void;
+}
+
+const ReviewCadenceModal: React.FC<ReviewCadenceModalProps> = ({ isOpen, onClose, onSave }) => {
+  const [selectedCadence, setSelectedCadence] = React.useState("recommended");
+  const [activeTab, setActiveTab] = React.useState("cadence");
+
+  const cadenceOptions = [
+    { id: "recommended", label: "Review as recommended", isDefault: true },
+    { id: "tomorrow", label: "Review tomorrow", isDefault: false },
+    { id: "no-review", label: "No review for now", isDefault: false },
+    { id: "no-more", label: "No more reviews", isDefault: false },
+  ];
+
+  const otherOptions = [
+    { id: "next-week", label: "Review next week" },
+    { id: "two-weeks", label: "Review in 2 weeks" },
+  ];
+
+  const handleSave = () => {
+    onSave(selectedCadence);
+    onClose();
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="absolute inset-0 bg-[#000000b2] z-60 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-xl max-w-sm w-full mx-4 relative animate-celebration-bubble">
+        {/* Header */}
+        <div className="px-6 pt-6 pb-4 border-b border-gray-200">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold text-[#4b4b4b] font-['Nunito',Helvetica]">
+              Learning Review
+            </h2>
+            <button
+              onClick={onClose}
+              className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Tabs */}
+        <div className="px-6 pt-4">
+          <div className="flex border-b border-gray-200">
+            <button
+              onClick={() => setActiveTab("cadence")}
+              className={`flex-1 pb-3 text-center font-semibold transition-colors relative ${
+                activeTab === "cadence" 
+                  ? "text-[#58cc02]" 
+                  : "text-gray-500"
+              }`}
+            >
+              Review Cadence
+              {activeTab === "cadence" && (
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#58cc02]" />
+              )}
+            </button>
+            <button
+              onClick={() => setActiveTab("flashcards")}
+              className={`flex-1 pb-3 text-center font-semibold transition-colors relative ${
+                activeTab === "flashcards" 
+                  ? "text-[#58cc02]" 
+                  : "text-gray-500"
+              }`}
+            >
+              Flashcards
+              {activeTab === "flashcards" && (
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#58cc02]" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="px-6 py-4 max-h-96 overflow-y-auto">
+          {activeTab === "cadence" ? (
+            <div className="space-y-3">
+              {/* Main Options */}
+              {cadenceOptions.map((option) => (
+                <button
+                  key={option.id}
+                  onClick={() => setSelectedCadence(option.id)}
+                  className={`w-full p-4 rounded-xl border-2 text-left font-medium transition-all ${
+                    selectedCadence === option.id
+                      ? option.isDefault
+                        ? "bg-[#d2effd] border-[#1cb0f6] text-[#1cb0f6]"
+                        : "bg-gray-100 border-gray-300 text-gray-700"
+                      : "bg-white border-gray-200 text-gray-700 hover:bg-gray-50"
+                  }`}
+                >
+                  {option.label}
+                </button>
+              ))}
+
+              {/* Divider */}
+              <div className="flex items-center my-6">
+                <div className="flex-1 h-px bg-gray-200"></div>
+                <span className="px-4 text-sm text-gray-500 font-medium">Other options</span>
+                <div className="flex-1 h-px bg-gray-200"></div>
+              </div>
+
+              {/* Other Options */}
+              {otherOptions.map((option) => (
+                <button
+                  key={option.id}
+                  onClick={() => setSelectedCadence(option.id)}
+                  className={`w-full p-4 rounded-xl border-2 text-left font-medium transition-all ${
+                    selectedCadence === option.id
+                      ? "bg-gray-100 border-gray-300 text-gray-700"
+                      : "bg-white border-gray-200 text-gray-700 hover:bg-gray-50"
+                  }`}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8 text-gray-500">
+              Flashcards feature coming soon...
+            </div>
+          )}
+        </div>
+
+        {/* Actions */}
+        <div className="px-6 py-4 border-t border-gray-100">
+          <div className="flex gap-3">
+            <button
+              onClick={onClose}
+              className="flex-1 h-12 rounded-xl border-2 border-gray-300 bg-white text-gray-600 font-semibold hover:bg-gray-50 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSave}
+              className="flex-1 h-12 rounded-xl bg-[#58cc02] text-white font-semibold hover:bg-[#4fb802] transition-colors shadow-[0_3px_0_#4fb802] active:translate-y-[2px] active:shadow-none"
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Confetti = () => {
   const confettiPieces = Array.from({ length: 30 }, (_, i) => ({
