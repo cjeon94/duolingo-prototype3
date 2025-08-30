@@ -224,15 +224,15 @@ export default function ResultScreen(): JSX.Element {
         {/* Confetti - Behind bubble, above content */}
         {showConfetti && <Confetti />}
 
-        {/* Review Button - Below overlay during first bubble, above during second bubble */}
-        {!showOverlay && (
-          <button
-            onClick={handleReviewClick}
-            className="absolute top-[118px] right-6 rounded-full bg-orange-500 text-white text-[13px] font-bold px-3 py-1.5 shadow-lg transition-all duration-300 hover:bg-orange-600 z-20"
-          >
-            Review in 2 days
-          </button>
-        )}
+        {/* Review Button - Always above overlay */}
+        <button
+          onClick={handleReviewClick}
+          className={`absolute top-[118px] right-6 rounded-full bg-orange-500 text-white text-[13px] font-bold px-3 py-1.5 shadow-lg transition-all duration-300 hover:bg-orange-600 z-50 ${
+            firstReview && showSecondBubble ? 'animate-review-button-pulse' : ''
+          }`}
+        >
+          Review in 2 days
+        </button>
 
         {/* Dark Overlay - Similar to first screens */}
         {showOverlay && (
@@ -240,16 +240,6 @@ export default function ResultScreen(): JSX.Element {
             className="absolute inset-0 bg-[#000000b2] z-40 cursor-pointer"
             onClick={handleOverlayClick}
           >
-            {/* Review Button - Above overlay only during second bubble */}
-            {showSecondBubble && (
-              <button
-                onClick={handleReviewClick}
-                className="absolute top-[118px] right-6 rounded-full bg-orange-500 text-white text-[13px] font-bold px-3 py-1.5 shadow-lg transition-all duration-300 hover:bg-orange-600 z-50 animate-review-button-pulse"
-              >
-                Review in 2 days
-              </button>
-            )}
-            
             {/* Cheer Owl */}
             <img
               className={`absolute object-cover animate-bounce-gentle ${
