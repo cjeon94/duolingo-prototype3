@@ -49,6 +49,7 @@ export default function ResultScreen(): JSX.Element {
   const [showCelebrationBubble, setShowCelebrationBubble] = React.useState(false);
   const [showConfetti, setShowConfetti] = React.useState(false);
   const [isPillPulsing, setIsPillPulsing] = React.useState(false);
+  const [showOverlay, setShowOverlay] = React.useState(false);
 
   const duoCharacters = [
     "/Duo Character 1.svg",
@@ -81,7 +82,8 @@ export default function ResultScreen(): JSX.Element {
 
   const handleGotIt = () => {
     if (firstReview && !showCelebrationBubble) {
-      // Show celebration bubble and confetti
+      // Show overlay, celebration bubble and confetti
+      setShowOverlay(true);
       setShowCelebrationBubble(true);
       setShowConfetti(true);
       setIsPillPulsing(true);
@@ -94,7 +96,8 @@ export default function ResultScreen(): JSX.Element {
       // Hide bubble after 1.2s
       setTimeout(() => {
         setShowCelebrationBubble(false);
-      }, 1200);
+        setShowOverlay(false);
+      }, 2000);
     } else {
       // Normal navigation - return to translate lesson
       navigate("/lesson/translate");
@@ -229,8 +232,27 @@ export default function ResultScreen(): JSX.Element {
         {/* Confetti - Behind bubble, above content */}
         {showConfetti && <Confetti />}
 
-        {/* Celebratory Speech Bubble - Above owl area */}
-        {showCelebrationBubble && (
+        {/* Dark Overlay - Similar to first screens */}
+        {showOverlay && (
+          <div className="absolute inset-0 bg-[#000000b2] z-40">
+            {/* Celebratory Speech Bubble - On top of overlay */}
+            {showCelebrationBubble && (
+              <div 
+                className="pointer-events-none absolute left-1/2 top-[38%] -translate-x-1/2 z-50 animate-celebration-bubble"
+                aria-live="polite"
+              >
+                <div className="relative rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-lg">
+                  <span className="absolute -left-2 top-4 h-4 w-4 rotate-45 bg-white border-l border-t border-gray-200" />
+                  <p className="text-lg font-bold text-[#4b4b4b]">Great job!</p>
+                  <p className="text-[15px] text-gray-700">You now have your first word to review.</p>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Celebratory Speech Bubble - Without overlay (for non-firstReview cases) */}
+        {showCelebrationBubble && !showOverlay && (
           <div 
             className="pointer-events-none absolute left-1/2 top-[38%] -translate-x-1/2 z-40 animate-celebration-bubble"
             aria-live="polite"
