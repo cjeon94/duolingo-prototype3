@@ -228,7 +228,7 @@ export default function ResultScreen(): JSX.Element {
         <button
           onClick={handleReviewClick}
           className={`absolute top-[118px] right-6 rounded-full bg-orange-500 text-white text-[13px] font-bold px-3 py-1.5 shadow-lg transition-all duration-300 hover:bg-orange-600 z-50 ${
-            showSecondBubble ? 'animate-review-button-pulse' : ''
+            firstReview && isPillPulsing && showSecondBubble ? 'animate-review-button-pulse' : ''
           }`}
         >
           Review in 2 days
@@ -308,7 +308,9 @@ export default function ResultScreen(): JSX.Element {
         )}
 
         {/* Sticky Error Sheet */}
-        <div className={`absolute bottom-0 left-0 right-0 bg-[#ffeaea] border-t-2 border-[#ff4b4b] ${showSecondBubble ? 'z-30' : 'z-50'}`}>
+        <div className={`absolute bottom-0 left-0 right-0 bg-[#ffeaea] border-t-2 border-[#ff4b4b] ${showSecondBubble ? 'z-30' : 'z-50'} ${
+          showCelebrationBubble && !showSecondBubble ? 'animate-error-panel-pulse' : ''
+        }`}>
           {/* Top Section with Icons */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-[#ffcccc]">
             <div className="flex items-center gap-3">
