@@ -160,14 +160,6 @@ export default function ResultScreen(): JSX.Element {
           <button 
             className="w-8 h-8 flex items-center justify-center"
             onClick={() => navigate("/lesson/translate")}
-          >
-            <X className="w-5 h-5 text-[#6b7280]" />
-          </button>
-          <div className="flex-1 h-3 bg-[#e5e7eb] rounded-full overflow-hidden">
-            <div className="w-3/5 h-full bg-[#58cc02] rounded-full"></div>
-          </div>
-        </div>
-
         {/* Main Content */}
         <div className="px-6 pb-32 relative z-10">
           {/* Title */}
