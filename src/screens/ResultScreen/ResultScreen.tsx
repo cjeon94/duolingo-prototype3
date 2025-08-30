@@ -3,23 +3,25 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { X, Share, Flag } from "lucide-react";
 
 const Confetti = () => {
-  const confettiPieces = Array.from({ length: 60 }, (_, i) => ({
+  const confettiPieces = Array.from({ length: 40 }, (_, i) => ({
     id: i,
-    left: Math.random() * 100,
-    animationDelay: Math.random() * 0.5,
+    left: 30 + Math.random() * 40, // Centered around owl area
+    top: 35 + Math.random() * 20,
+    animationDelay: Math.random() * 0.3,
     color: ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#58cc02', '#ce82ff'][Math.floor(Math.random() * 8)],
-    size: Math.random() * 8 + 4,
+    size: Math.random() * 6 + 3,
     rotation: Math.random() * 360,
   }));
 
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+    <div className="absolute inset-0 pointer-events-none overflow-hidden z-30">
       {confettiPieces.map((piece) => (
         <div
           key={piece.id}
-          className="absolute animate-confetti-celebration"
+          className="absolute animate-confetti-burst"
           style={{
             left: `${piece.left}%`,
+            top: `${piece.top}%`,
             animationDelay: `${piece.animationDelay}s`,
             backgroundColor: piece.color,
             width: `${piece.size}px`,
@@ -42,8 +44,9 @@ export default function ResultScreen(): JSX.Element {
   const firstReview = searchParams.get("firstReview") === "true";
   const isCorrect = state === "correct";
 
-  const [showCelebration, setShowCelebration] = React.useState(false);
+  const [showCelebrationBubble, setShowCelebrationBubble] = React.useState(false);
   const [isPulsing, setIsPulsing] = React.useState(false);
+  const [showConfetti, setShowConfetti] = React.useState(false);
 
   const duoCharacters = [
     "/Duo Character 1.svg",
@@ -70,44 +73,74 @@ export default function ResultScreen(): JSX.Element {
       incorrectSound.play().catch(() => {
         console.log("Could not play incorrect answer sound");
       });
-    }
-  }, [isCorrect]);
 
-  // Handle pulsing animation when celebration is shown
-  React.useEffect(() => {
-    if (showCelebration) {
-      setIsPulsing(true);
-      const timer = setTimeout(() => {
-        setIsPulsing(false);
-      }, 1200);
-      return () => clearTimeout(timer);
-    }
-  }, [showCelebration]);
-  const handleContinue = () => {
-    if (firstReview && !isCorrect) {
-      // Show celebration overlay first
-      setShowCelebration(true);
-    } else {
+      // If this is the first review, show celebration after a brief delay
       if (firstReview) {
-        navigate("/lesson/tip");
-      } else {
-        navigate("/lesson/translate");
+        const timer = setTimeout(() => {
+          setShowCelebrationBubble(true);
+          setShowConfetti(true);
+          setIsPulsing(true);
+          
+          // Stop pulsing after 1.2s but keep bubble visible
+          setTimeout(() => {
+            setIsPulsing(false);
+          }, 1200);
+          
+          // Hide bubble after 1.2s
+          setTimeout(() => {
+            setShowCelebrationBubble(false);
+          }, 1200);
+        }, 300);
+        
+        return () => clearTimeout(timer);
       }
     }
+  }, [isCorrect, firstReview]);
+
+  const handleGotIt = () => {
+    navigate("/lesson/tip");
   };
 
   const handleReviewClick = () => {
     navigate("/review/cadence?preset=2d");
   };
 
-  const handleCelebrationContinue = () => {
-    setShowCelebration(false);
+  const handleCopy = () => {
+    if (expected) {
+      navigator.clipboard.writeText(decodeURIComponent(expected));
+    }
   };
+
+  const handleShare = () => {
+    console.log("Share clicked");
+  };
+
+  // For correct answers, show simple success state
+  if (isCorrect) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+        <div className="relative w-[390px] h-[844px] bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="flex justify-center items-center h-full">
+            <div className="text-center">
+              <div className="text-6xl mb-4">🎉</div>
+              <h1 className="text-2xl font-bold text-green-600 mb-2">Correct!</h1>
+              <button
+                onClick={() => navigate("/lesson/translate")}
+                className="bg-green-500 text-white px-6 py-3 rounded-xl font-semibold"
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
       {/* Main Canvas */}
-      <div className="relative w-[390px] h-[844px] bg-white rounded-xl shadow-lg overflow-hidden">
+      <div className="relative w-[390px] h-[844px] bg-white rounded-xl shadow-lg overflow-hidden z-10">
         
         {/* Status Bar */}
         <div className="flex justify-between items-center px-4 py-3 h-[54px]">
@@ -142,9 +175,12 @@ export default function ResultScreen(): JSX.Element {
           
           <button
             onClick={handleReviewClick}
-            className={`bg-[#ff9600] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg transition-all duration-300 hover:bg-[#e6870a] ${
-              isPulsing ? 'animate-review-pulse' : ''
+            className={`bg-[#ff9600] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg transition-all duration-300 hover:bg-[#e6870a] z-20 relative ${
+              firstReview && isPulsing ? 'animate-review-pulse-highlight' : ''
             }`}
+            style={{
+              boxShadow: firstReview ? '0 0 20px rgba(255, 150, 0, 0.4)' : '0 2px 4px rgba(0, 0, 0, 0.1)'
+            }}
           >
             Review in 2 days
           </button>
@@ -172,7 +208,7 @@ export default function ResultScreen(): JSX.Element {
             <div className="flex-1 relative">
               <div className="bg-white border-2 border-[#e4e4e4] rounded-2xl p-4 shadow-sm relative">
                 <div className="text-lg text-[#4b4b4b] font-medium">
-                  Dear Ana, how are you?
+                  "Dear Ana, how are you?"
                 </div>
                 {/* Speech bubble tail */}
                 <div className="absolute left-[-8px] top-6 w-0 h-0 border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent border-r-[8px] border-r-[#e4e4e4]"></div>
@@ -183,14 +219,31 @@ export default function ResultScreen(): JSX.Element {
 
           {/* User's Answer Input - Disabled with Red Border */}
           <div className="mb-8">
-            <div className="w-full min-h-[120px] p-4 border-2 border-[#ff4b4b] rounded-xl bg-[#ffeaea] text-lg text-[#4b4b4b] opacity-75">
-              {userAnswer || "Ana, como estas?"}
+            <div className="w-full min-h-[120px] p-4 border-2 border-[#ef4444] rounded-xl bg-[#fef2f2] text-lg text-[#4b4b4b] opacity-75">
+              {userAnswer ? decodeURIComponent(userAnswer) : ""}
             </div>
           </div>
         </div>
 
-        {/* Incorrect Footer */}
-        <div className="absolute bottom-0 left-0 right-0 bg-[#ffeaea] border-t-2 border-[#ff4b4b]">
+        {/* Confetti - Behind bubble, above content */}
+        {showConfetti && <Confetti />}
+
+        {/* Celebratory Speech Bubble - Above owl area */}
+        {showCelebrationBubble && (
+          <div 
+            className="pointer-events-none absolute left-1/2 top-[38%] -translate-x-1/2 z-40 animate-celebration-bubble"
+            aria-live="polite"
+          >
+            <div className="relative rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-lg">
+              <span className="absolute -left-2 top-4 h-4 w-4 rotate-45 bg-white border-l border-t border-gray-200" />
+              <p className="text-lg font-bold text-[#4b4b4b] mb-1">Great job!</p>
+              <p className="text-[15px] text-gray-700">You now have your first word to review.</p>
+            </div>
+          </div>
+        )}
+
+        {/* Sticky Error Sheet */}
+        <div className="absolute bottom-0 left-0 right-0 bg-[#ffeaea] border-t-2 border-[#ff4b4b] z-50">
           {/* Top Section with Icons */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-[#ffcccc]">
             <div className="flex items-center gap-3">
@@ -201,10 +254,16 @@ export default function ResultScreen(): JSX.Element {
             </div>
             
             <div className="flex items-center gap-4">
-              <button className="w-8 h-8 flex items-center justify-center">
+              <button 
+                onClick={handleShare}
+                className="w-8 h-8 flex items-center justify-center hover:bg-[#ffcccc] rounded-full transition-colors"
+              >
                 <Share className="w-5 h-5 text-[#6b7280]" />
               </button>
-              <button className="w-8 h-8 flex items-center justify-center">
+              <button 
+                onClick={handleCopy}
+                className="w-8 h-8 flex items-center justify-center hover:bg-[#ffcccc] rounded-full transition-colors"
+              >
                 <Flag className="w-5 h-5 text-[#6b7280]" />
               </button>
             </div>
@@ -222,10 +281,10 @@ export default function ResultScreen(): JSX.Element {
               <span className="text-[#4b4b4b] text-lg"> Ana, ¿cómo estás?</span>
             </div>
             
-            {/* Continue Button */}
+            {/* GOT IT Button */}
             <button
-              onClick={handleContinue}
-              className="w-full h-12 rounded-xl text-white font-bold text-base bg-[#ff4b4b] shadow-[0_3px_0_#d73527] active:translate-y-[2px] active:shadow-none transition-all"
+              onClick={handleGotIt}
+              className="w-full h-12 rounded-xl text-white font-bold text-base bg-[#ff4b4b] shadow-[0_3px_0_#d73527] active:translate-y-[2px] active:shadow-none transition-all hover:bg-[#e53e3e]"
             >
               GOT IT
             </button>
@@ -236,63 +295,6 @@ export default function ResultScreen(): JSX.Element {
         <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2">
           <div className="w-[134px] h-[5px] bg-black rounded-full"></div>
         </div>
-
-        {/* First Review Celebration Overlay */}
-        {showCelebration && (
-          <div className="absolute inset-0 bg-[#000000b2] z-50 flex items-center justify-center">
-            {/* Confetti */}
-            <Confetti />
-            
-            {/* Celebration Modal */}
-            <div className="bg-white rounded-2xl p-8 shadow-xl max-w-sm w-full mx-4 relative z-10">
-              {/* Duo Character with Confetti Zone */}
-              <div className="flex justify-center mb-6 relative">
-                <div className="relative">
-                  <img
-                    className="w-32 h-32 object-contain animate-bounce-gentle"
-                    alt="Celebrating Duo"
-                    src="/excited-owl.gif"
-                  />
-                  {/* Local confetti around owl */}
-                  <div className="absolute inset-0 pointer-events-none">
-                    {Array.from({ length: 20 }, (_, i) => (
-                      <div
-                        key={i}
-                        className="absolute animate-confetti-burst"
-                        style={{
-                          left: `${20 + Math.random() * 60}%`,
-                          top: `${20 + Math.random() * 60}%`,
-                          animationDelay: `${Math.random() * 0.5}s`,
-                          backgroundColor: ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#58cc02'][Math.floor(Math.random() * 7)],
-                          width: `${Math.random() * 6 + 3}px`,
-                          height: `${Math.random() * 6 + 3}px`,
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Celebration Text */}
-              <div className="text-center mb-8">
-                <h2 className="text-2xl font-bold text-[#4b4b4b] mb-4">
-                  Great job!
-                </h2>
-                <p className="text-lg text-[#4b4b4b] leading-relaxed">
-                  You now have your first word to review.
-                </p>
-              </div>
-
-              {/* Continue Button */}
-              <button
-                onClick={handleCelebrationContinue}
-                className="w-full h-12 rounded-xl text-white font-bold text-base bg-[#58cc02] shadow-[0_3px_0_#4caf50] active:translate-y-[2px] active:shadow-none transition-all hover:bg-[#4caf50]"
-              >
-                CONTINUE
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
