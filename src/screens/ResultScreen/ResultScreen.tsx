@@ -169,7 +169,7 @@ export default function ResultScreen(): JSX.Element {
         </div>
 
         {/* Main Content */}
-        <div className="px-6 pb-32 relative z-10">
+        <div className="px-6 pb-32 pt-6 relative z-10">
           {/* Title */}
           <h1 className="text-2xl font-bold text-[#4b4b4b] mb-8">
             Translate this sentence
