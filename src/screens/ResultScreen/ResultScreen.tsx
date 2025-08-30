@@ -38,6 +38,7 @@ export default function ResultScreen(): JSX.Element {
   
   const state = searchParams.get("state");
   const expected = searchParams.get("expected");
+  const userAnswer = searchParams.get("userAnswer");
   const firstReview = searchParams.get("firstReview") === "true";
   const isCorrect = state === "correct";
 
@@ -183,7 +184,7 @@ export default function ResultScreen(): JSX.Element {
           {/* User's Answer Input - Disabled with Red Border */}
           <div className="mb-8">
             <div className="w-full min-h-[120px] p-4 border-2 border-[#ff4b4b] rounded-xl bg-[#ffeaea] text-lg text-[#4b4b4b] opacity-75">
-              Ana, como estas?
+              {userAnswer || "Ana, como estas?"}
             </div>
           </div>
         </div>
