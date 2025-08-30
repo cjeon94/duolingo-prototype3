@@ -176,15 +176,6 @@ export default function ResultScreen(): JSX.Element {
             </div>
             <span className="text-[#ce82ff] font-bold text-[13px] tracking-wider">LEVEL 6</span>
           </div>
-          
-          <button
-            onClick={handleReviewClick}
-            className={`rounded-full bg-orange-500 text-white text-[13px] font-bold px-3 py-1.5 shadow-lg transition-all duration-300 hover:bg-orange-600 relative ${
-              firstReview && isPillPulsing ? 'animate-pulse shadow-[0_0_0_6px_rgba(249,115,22,0.15)]' : 'shadow-[0_0_0_6px_rgba(249,115,22,0.15)]'
-            } ${showSecondBubble ? 'z-50' : 'z-20'}`}
-          >
-            Review in 2 days
-          </button>
         </div>
 
         {/* Main Content */}
@@ -232,6 +223,16 @@ export default function ResultScreen(): JSX.Element {
 
         {/* Confetti - Behind bubble, above content */}
         {showConfetti && <Confetti />}
+
+        {/* Review Button - Always above overlay */}
+        <button
+          onClick={handleReviewClick}
+          className={`absolute top-[118px] right-6 rounded-full bg-orange-500 text-white text-[13px] font-bold px-3 py-1.5 shadow-lg transition-all duration-300 hover:bg-orange-600 z-50 ${
+            firstReview && isPillPulsing ? 'animate-pulse shadow-[0_0_0_6px_rgba(249,115,22,0.15)]' : 'shadow-[0_0_0_6px_rgba(249,115,22,0.15)]'
+          }`}
+        >
+          Review in 2 days
+        </button>
 
         {/* Dark Overlay - Similar to first screens */}
         {showOverlay && (
