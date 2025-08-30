@@ -248,7 +248,7 @@ export default function ResultScreen(): JSX.Element {
             {/* Celebratory Speech Bubble - On top of overlay */}
             {showCelebrationBubble && (
               <div 
-                className="absolute left-1/2 top-[38%] -translate-x-1/2 z-50 animate-celebration-bubble cursor-pointer"
+                className="absolute left-1/2 top-[23%] -translate-x-1/2 z-50 animate-celebration-bubble cursor-pointer"
                 aria-live="polite"
                 onClick={() => {
                   setShowCelebrationBubble(false);
@@ -260,7 +260,7 @@ export default function ResultScreen(): JSX.Element {
                 }}
               >
                 <div className="relative rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-lg">
-                  <span className="absolute -left-2 top-4 h-4 w-4 rotate-45 bg-white border-l border-t border-gray-200" />
+                  <span className="absolute left-1/2 -translate-x-1/2 -bottom-2 h-4 w-4 rotate-45 bg-white border-b border-r border-gray-200" />
                   <p className="text-lg font-bold text-[#4b4b4b]">Great job!</p>
                   <p className="text-[15px] text-gray-700">You now have your first word to review.</p>
                 </div>
@@ -272,7 +272,7 @@ export default function ResultScreen(): JSX.Element {
         {/* Celebratory Speech Bubble - Without overlay (for non-firstReview cases) */}
         {showCelebrationBubble && !showOverlay && (
           <div 
-            className="absolute left-1/2 top-[38%] -translate-x-1/2 z-40 animate-celebration-bubble cursor-pointer"
+            className="absolute left-1/2 top-[23%] -translate-x-1/2 z-40 animate-celebration-bubble cursor-pointer"
             aria-live="polite"
             onClick={() => {
               setShowCelebrationBubble(false);
@@ -280,7 +280,7 @@ export default function ResultScreen(): JSX.Element {
             }}
           >
             <div className="relative rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-lg">
-              <span className="absolute -left-2 top-4 h-4 w-4 rotate-45 bg-white border-l border-t border-gray-200" />
+              <span className="absolute left-1/2 -translate-x-1/2 -bottom-2 h-4 w-4 rotate-45 bg-white border-b border-r border-gray-200" />
               <p className="text-lg font-bold text-[#4b4b4b]">Great job!</p>
               <p className="text-[15px] text-gray-700">You now have your first word to review.</p>
             </div>
