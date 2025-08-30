@@ -179,9 +179,9 @@ export default function ResultScreen(): JSX.Element {
           
           <button
             onClick={handleReviewClick}
-            className={`rounded-full bg-orange-500 text-white text-[13px] font-bold px-3 py-1.5 shadow-lg transition-all duration-300 hover:bg-orange-600 z-20 relative ${
+            className={`rounded-full bg-orange-500 text-white text-[13px] font-bold px-3 py-1.5 shadow-lg transition-all duration-300 hover:bg-orange-600 relative ${
               firstReview && isPillPulsing ? 'animate-pulse shadow-[0_0_0_6px_rgba(249,115,22,0.15)]' : 'shadow-[0_0_0_6px_rgba(249,115,22,0.15)]'
-            }`}
+            } ${showSecondBubble ? 'z-50' : 'z-20'}`}
           >
             Review in 2 days
           </button>
