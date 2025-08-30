@@ -248,8 +248,16 @@ export default function ResultScreen(): JSX.Element {
             {/* Celebratory Speech Bubble - On top of overlay */}
             {showCelebrationBubble && (
               <div 
-                className="absolute left-1/2 top-[38%] -translate-x-1/2 z-50 animate-celebration-bubble"
+                className="absolute left-1/2 top-[38%] -translate-x-1/2 z-50 animate-celebration-bubble cursor-pointer"
                 aria-live="polite"
+                onClick={() => {
+                  setShowCelebrationBubble(false);
+                  setShowOverlay(false);
+                  // Navigate after bubble is hidden
+                  setTimeout(() => {
+                    navigate("/lesson/translate");
+                  }, 100);
+                }}
               >
                 <div className="relative rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-lg">
                   <span className="absolute -left-2 top-4 h-4 w-4 rotate-45 bg-white border-l border-t border-gray-200" />
@@ -264,8 +272,12 @@ export default function ResultScreen(): JSX.Element {
         {/* Celebratory Speech Bubble - Without overlay (for non-firstReview cases) */}
         {showCelebrationBubble && !showOverlay && (
           <div 
-            className="pointer-events-none absolute left-1/2 top-[38%] -translate-x-1/2 z-40 animate-celebration-bubble"
+            className="absolute left-1/2 top-[38%] -translate-x-1/2 z-40 animate-celebration-bubble cursor-pointer"
             aria-live="polite"
+            onClick={() => {
+              setShowCelebrationBubble(false);
+              navigate("/lesson/translate");
+            }}
           >
             <div className="relative rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-lg">
               <span className="absolute -left-2 top-4 h-4 w-4 rotate-45 bg-white border-l border-t border-gray-200" />

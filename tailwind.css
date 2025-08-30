@@ -620,16 +620,14 @@
     opacity: 1;
     transform: translate(-50%, 0) scale(1);
   }
-  85% {
-    opacity: 1;
-  }
   100% {
-    opacity: 0;
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
   }
 }
 
 .animate-celebration-bubble {
-  animation: celebration-bubble 2500ms ease-out forwards;
+  animation: celebration-bubble 300ms ease-out forwards;
 }
 
 @tailwind components;
