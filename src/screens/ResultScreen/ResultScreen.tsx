@@ -2,13 +2,47 @@ import React from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { X, Share, Flag } from "lucide-react";
 
+const Confetti = () => {
+  const confettiPieces = Array.from({ length: 60 }, (_, i) => ({
+    id: i,
+    left: Math.random() * 100,
+    animationDelay: Math.random() * 0.5,
+    color: ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#58cc02', '#ce82ff'][Math.floor(Math.random() * 8)],
+    size: Math.random() * 8 + 4,
+    rotation: Math.random() * 360,
+  }));
+
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {confettiPieces.map((piece) => (
+        <div
+          key={piece.id}
+          className="absolute animate-confetti-celebration"
+          style={{
+            left: `${piece.left}%`,
+            animationDelay: `${piece.animationDelay}s`,
+            backgroundColor: piece.color,
+            width: `${piece.size}px`,
+            height: `${piece.size}px`,
+            transform: `rotate(${piece.rotation}deg)`,
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 export default function ResultScreen(): JSX.Element {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   
   const state = searchParams.get("state");
   const expected = searchParams.get("expected");
+  const firstReview = searchParams.get("firstReview") === "true";
   const isCorrect = state === "correct";
+
+  const [showCelebration, setShowCelebration] = React.useState(firstReview);
+  const [isPulsing, setIsPulsing] = React.useState(firstReview);
 
   const duoCharacters = [
     "/Duo Character 1.svg",
@@ -36,11 +70,30 @@ export default function ResultScreen(): JSX.Element {
         console.log("Could not play incorrect answer sound");
       });
     }
-  }, [isCorrect]);
+
+    // Stop pulsing after 1.2 seconds for first review
+    if (firstReview) {
+      const timer = setTimeout(() => {
+        setIsPulsing(false);
+      }, 1200);
+      return () => clearTimeout(timer);
+    }
+  }, [isCorrect, firstReview]);
 
   const handleContinue = () => {
-    // Navigate back to lesson or next lesson
-    navigate("/lesson/translate");
+    if (firstReview) {
+      navigate("/lesson/tip");
+    } else {
+      navigate("/lesson/translate");
+    }
+  };
+
+  const handleReviewClick = () => {
+    navigate("/review/cadence?preset=2d");
+  };
+
+  const handleCelebrationContinue = () => {
+    setShowCelebration(false);
   };
 
   return (
@@ -79,9 +132,14 @@ export default function ResultScreen(): JSX.Element {
             <span className="text-[#ce82ff] font-bold text-sm tracking-wider">LEVEL 6</span>
           </div>
           
-          <div className="bg-[#ff9600] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">
+          <button
+            onClick={handleReviewClick}
+            className={`bg-[#ff9600] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg transition-all duration-300 hover:bg-[#e6870a] ${
+              isPulsing ? 'animate-review-pulse' : ''
+            }`}
+          >
             Review in 2 days
-          </div>
+          </button>
         </div>
 
         {/* Main Content */}
@@ -115,9 +173,9 @@ export default function ResultScreen(): JSX.Element {
             </div>
           </div>
 
-          {/* User's Answer Input */}
+          {/* User's Answer Input - Disabled with Red Border */}
           <div className="mb-8">
-            <div className="w-full min-h-[120px] p-4 border-2 border-[#e4e4e4] rounded-xl bg-gray-50 text-lg text-[#4b4b4b]">
+            <div className="w-full min-h-[120px] p-4 border-2 border-[#ff4b4b] rounded-xl bg-[#ffeaea] text-lg text-[#4b4b4b] opacity-75">
               Ana, como estas?
             </div>
           </div>
@@ -170,6 +228,63 @@ export default function ResultScreen(): JSX.Element {
         <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2">
           <div className="w-[134px] h-[5px] bg-black rounded-full"></div>
         </div>
+
+        {/* First Review Celebration Overlay */}
+        {showCelebration && (
+          <div className="absolute inset-0 bg-[#000000b2] z-50 flex items-center justify-center">
+            {/* Confetti */}
+            <Confetti />
+            
+            {/* Celebration Modal */}
+            <div className="bg-white rounded-2xl p-8 shadow-xl max-w-sm w-full mx-4 relative z-10">
+              {/* Duo Character with Confetti Zone */}
+              <div className="flex justify-center mb-6 relative">
+                <div className="relative">
+                  <img
+                    className="w-32 h-32 object-contain animate-bounce-gentle"
+                    alt="Celebrating Duo"
+                    src="/excited-owl.gif"
+                  />
+                  {/* Local confetti around owl */}
+                  <div className="absolute inset-0 pointer-events-none">
+                    {Array.from({ length: 20 }, (_, i) => (
+                      <div
+                        key={i}
+                        className="absolute animate-confetti-burst"
+                        style={{
+                          left: `${20 + Math.random() * 60}%`,
+                          top: `${20 + Math.random() * 60}%`,
+                          animationDelay: `${Math.random() * 0.5}s`,
+                          backgroundColor: ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#58cc02'][Math.floor(Math.random() * 7)],
+                          width: `${Math.random() * 6 + 3}px`,
+                          height: `${Math.random() * 6 + 3}px`,
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Celebration Text */}
+              <div className="text-center mb-8">
+                <h2 className="text-2xl font-bold text-[#4b4b4b] mb-4">
+                  Great job!
+                </h2>
+                <p className="text-lg text-[#4b4b4b] leading-relaxed">
+                  You now have your first word to review.
+                </p>
+              </div>
+
+              {/* Continue Button */}
+              <button
+                onClick={handleCelebrationContinue}
+                className="w-full h-12 rounded-xl text-white font-bold text-base bg-[#58cc02] shadow-[0_3px_0_#4caf50] active:translate-y-[2px] active:shadow-none transition-all hover:bg-[#4caf50]"
+              >
+                CONTINUE
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
