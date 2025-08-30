@@ -50,6 +50,7 @@ export default function ResultScreen(): JSX.Element {
   const [showConfetti, setShowConfetti] = React.useState(false);
   const [isPillPulsing, setIsPillPulsing] = React.useState(false);
   const [showOverlay, setShowOverlay] = React.useState(false);
+  const [showSecondBubble, setShowSecondBubble] = React.useState(false);
 
   const duoCharacters = [
     "/Duo Character 1.svg",
@@ -94,13 +95,13 @@ export default function ResultScreen(): JSX.Element {
   };
 
   const handleOverlayClick = () => {
-    if (showOverlay) {
+    if (showOverlay && !showSecondBubble) {
       setShowCelebrationBubble(false);
+      setShowSecondBubble(true);
+    } else if (showSecondBubble) {
+      setShowSecondBubble(false);
       setShowOverlay(false);
-      // Navigate after overlay is hidden
-      setTimeout(() => {
-        navigate("/lesson/translate");
-      }, 100);
+      navigate("/lesson/translate");
     }
   };
 
@@ -252,17 +253,32 @@ export default function ResultScreen(): JSX.Element {
                 aria-live="polite"
                 onClick={() => {
                   setShowCelebrationBubble(false);
-                  setShowOverlay(false);
-                  // Navigate after bubble is hidden
-                  setTimeout(() => {
-                    navigate("/lesson/translate");
-                  }, 100);
+                  setShowSecondBubble(true);
                 }}
               >
                 <div className="relative rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-lg">
                   <span className="absolute left-1/2 -translate-x-1/2 -bottom-2 h-4 w-4 rotate-45 bg-white border-b border-r border-gray-200" />
                   <p className="text-lg font-bold text-[#4b4b4b]">Great job!</p>
                   <p className="text-[15px] text-gray-700">You now have your first word to review.</p>
+                </div>
+              </div>
+            )}
+            
+            {/* Second Speech Bubble */}
+            {showSecondBubble && (
+              <div 
+                className="absolute left-1/2 top-[23%] -translate-x-1/2 z-50 animate-celebration-bubble cursor-pointer"
+                aria-live="polite"
+                onClick={() => {
+                  setShowSecondBubble(false);
+                  setShowOverlay(false);
+                  navigate("/lesson/translate");
+                }}
+              >
+                <div className="relative rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-lg">
+                  <span className="absolute left-1/2 -translate-x-1/2 -bottom-2 h-4 w-4 rotate-45 bg-white border-b border-r border-gray-200" />
+                  <p className="text-lg font-bold text-[#4b4b4b]">I'll help you review</p>
+                  <p className="text-[15px] text-gray-700">each word at the optimal timing.</p>
                 </div>
               </div>
             )}
